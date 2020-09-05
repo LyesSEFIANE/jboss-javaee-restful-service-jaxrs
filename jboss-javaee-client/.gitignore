@@ -49,6 +49,8 @@ out/
 ## Eclipse
 ##############################
 .settings/
+.sts4-cache/
+.cheatsheet
 bin/
 tmp/
 .metadata
