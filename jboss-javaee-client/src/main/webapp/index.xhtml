@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="content">
+		<h1 style="text-align:center">Welcome to Java EE : RESTful Service with JAX-RS 2.0</h1>
+
+		<h:form id="reg">
+			<h2>Book Registration</h2>
+			<p>Please provide required information for registration.</p>
+			<h:panelGrid columns="3" columnClasses="titleCell">
+				<h:outputLabel for="isbn" value="ISBN:" />
+				<h:inputText id="isbn" value="#{book.isbn}" />
+				<h:message for="isbn" errorClass="invalid" />
+
+				<h:outputLabel for="title" value="Title:" />
+				<h:inputText id="title" value="#{book.title}" />
+				<h:message for="title" errorClass="invalid" />
+
+			</h:panelGrid>
+
+			<p>
+				<h:panelGrid columns="2">
+					<h:commandButton id="register" action="#{bookController.register}"
+						value="Register" styleClass="register" />
+					<h:messages styleClass="messages" errorClass="invalid"
+						infoClass="valid" warnClass="warning" globalOnly="true" />
+				</h:panelGrid>
+			</p>
+		</h:form>
+
+		<h2>Books</h2>
+		<h:panelGroup rendered="#{empty books}">
+			<em>No registered books.</em>
+		</h:panelGroup>
+		<p:form id="jsfViewScopedForm">
+			<h:dataTable var="_book" value="#{books}"
+				rendered="#{not empty books}" styleClass="simpletablestyle">
+				<h:column>
+					<f:facet name="header">Id</f:facet>
+                #{_book.id}
+            </h:column>
+				<h:column>
+					<f:facet name="header">Isbn</f:facet>
+                #{_book.isbn}
+            </h:column>
+				<h:column>
+					<f:facet name="header">Title</f:facet>
+                #{_book.title}
+            </h:column>
+				<h:column>
+					<f:facet name="header">REST URL</f:facet>
+				#{_book.links[0]}
+				</h:column>
+				<f:facet name="footer">
+            REST URL for all books : <a
+						href="#{request.contextPath}/api/books">/api/books</a>
+				</f:facet>
+			</h:dataTable>
+		</p:form>
+	</ui:define>
+</ui:composition>
